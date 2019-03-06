@@ -1,14 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Assets class loads images and sound into the game
  */
 package spaceinvaders;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
-/**
- *
- * @author juanpabloramos
- */
 public class Assets {
-    
+    //  IMAGES
+
+    //  SOUNDS
+
+    /**
+     * Assets initializer, to be called in Game
+     */
+    public static void init() {
+        //  IMAGES
+        //  SOUNDS
+        //  SPRITESHEET
+    }
 }
