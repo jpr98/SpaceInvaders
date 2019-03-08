@@ -15,6 +15,7 @@ import java.awt.Rectangle;
 public class Player extends Item{
     private final int lives;
     private final Game game;
+    private int frames;
     private final Animation playerMoving;
 
     public Player(int x, int y, int width, int height, int lives, Game game) {
@@ -28,7 +29,10 @@ public class Player extends Item{
     
     @Override
     public void tick() {
+        frames ++;
+        //  Tick for the animation
         this.playerMoving.tick();
+        
         /** Moving player's paddle */
         if (game.getKeyManager().left) {
             setX(getX()-5);
@@ -41,6 +45,12 @@ public class Player extends Item{
             setX(game.getWidth()-getWidth());
         } else if (getX() < 0) {
             setX(0);
+        }
+        
+        //  Player shooting
+        if (game.getKeyManager().up && frames > 20){
+            frames = 0;
+            game.addBullet();
         }
     }
 

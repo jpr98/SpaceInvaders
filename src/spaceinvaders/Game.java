@@ -32,6 +32,9 @@ public class Game implements Runnable{
     private Player player;
     private int playerLives;
     private int score;
+    // VARIABLES PARA BULLETS
+    private LinkedList<Bullet> bullets;
+    private int numBullets;
     
     /**
      * Constructor for the game
@@ -54,6 +57,7 @@ public class Game implements Runnable{
         playerLives = (int)(Math.random() * 3 + 3);
         display = new Display(title, width, height);
         Assets.init();
+        bullets = new LinkedList<>();
         player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, playerLives, this);
         display.getJframe().addKeyListener(keyManager);
     }
@@ -64,6 +68,13 @@ public class Game implements Runnable{
     private void tick() {
         player.tick();
         keyManager.tick();
+        for(int i = 0; i < bullets.size(); i++){
+            bullets.get(i).tick();
+            //  En caso de salir de la pantalla se elimina del linked list
+            if(bullets.get(i).getY() < 0){
+                bullets.remove(i);
+            }
+        }
     }
     
     /**
@@ -85,7 +96,9 @@ public class Game implements Runnable{
             g.setColor(Color.white);
             g.drawString("Score: " + score + " Lives: " + playerLives, getWidth()-150, getHeight()-15);
             
-            
+            for(int i = 0; i < bullets.size(); i++){
+               bullets.get(i).render(g);
+            }
             player.render(g);
             bs.show();
             g.dispose();
@@ -121,6 +134,11 @@ public class Game implements Runnable{
         return keyManager;
     }
 
+    
+    
+    public void addBullet(){
+        bullets.add(new Bullet(player.getX()+38, player.getY(), 5, 10, 5, this));
+    }
     
     // ***********************
     // *** DEFAULT METHODS *** 

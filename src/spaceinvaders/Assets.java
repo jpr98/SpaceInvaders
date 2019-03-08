@@ -8,6 +8,7 @@ import java.nio.Buffer;
 public class Assets {
     //  IMAGES
     public static BufferedImage background;
+    public static BufferedImage bullet;
     public static BufferedImage playerSprites;
     public static BufferedImage playerAnimation[];
     //  SOUNDS
@@ -19,6 +20,7 @@ public class Assets {
         //  IMAGES
         background = ImageLoader.loadImage("/images/background_nightsky.jpg");
         playerSprites = ImageLoader.loadImage("/images/SpaceCraft.png");
+        bullet = ImageLoader.loadImage("/images/bullet.png");
         //  SOUNDS
         
         //  SPRITESHEET
