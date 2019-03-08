@@ -7,7 +7,9 @@ import java.awt.Graphics;
 public abstract class Item {
     protected int x;
     protected int y;
-
+    protected int width;
+    protected int height;
+    
     /**
      * Constructor
      * @param x
@@ -17,7 +19,14 @@ public abstract class Item {
         this.x = x;
         this.y = y;
     }
-
+    
+    public abstract void tick();
+    public abstract void render(Graphics g);
+    
+    // *******************
+    // *** GET METHODS *** 
+    // *******************
+    
     /**
      * Returns x position of Item
      * @return x
@@ -33,7 +42,27 @@ public abstract class Item {
     public int getY() {
         return y;
     }
+    
+    /**
+     * Returns width of Item
+     * @return width
+     */
+    public int getWidth(){
+        return width;
+    }
 
+    /**
+     * Returns height of Item
+     * @returns height
+     */
+    public int getHeight(){
+        return height;
+    }
+    
+    // *******************
+    // *** SET METHODS *** 
+    // *******************
+    
     /**
      * Sets x position of item
      * @param x
@@ -49,8 +78,21 @@ public abstract class Item {
     public void setY(int y) {
         this.y = y;
     }
-
-    public abstract void tick();
-    public abstract void render(Graphics g);
-
+    
+    /**
+     * Sets width of Item
+     * @param width
+     */
+    public void setWidth(int width){
+        this.width = width;
+    }
+    
+    /**
+     * Sets height of Item
+     * @param height
+     */
+    public void setHeight(int height){
+        this.height = height;
+    }
+    
 }

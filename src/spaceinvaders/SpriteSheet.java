@@ -16,7 +16,7 @@ public class SpriteSheet {
 
     /**
      * Create new spritesheet
-     * @return sheet the <code>image</code> with the sprites
+     * @param sheet
      */
     public SpriteSheet(BufferedImage sheet){
         this.sheet = sheet;
