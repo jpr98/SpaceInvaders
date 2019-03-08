@@ -34,7 +34,8 @@ public class Game implements Runnable{
     private int score;
     // VARIABLES PARA BULLETS
     private LinkedList<Bullet> bullets;
-    private int numBullets;
+    // VARIABLES PARA ALIENS
+    private LinkedList<Alien> aliens;
     
     /**
      * Constructor for the game
@@ -58,6 +59,7 @@ public class Game implements Runnable{
         display = new Display(title, width, height);
         Assets.init();
         bullets = new LinkedList<>();
+        createAliens(5);
         player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, playerLives, this);
         display.getJframe().addKeyListener(keyManager);
     }
@@ -68,13 +70,8 @@ public class Game implements Runnable{
     private void tick() {
         player.tick();
         keyManager.tick();
-        for(int i = 0; i < bullets.size(); i++){
-            bullets.get(i).tick();
-            //  En caso de salir de la pantalla se elimina del linked list
-            if(bullets.get(i).getY() < 0){
-                bullets.remove(i);
-            }
-        }
+        bulletsTick();
+        alienTick();
     }
     
     /**
@@ -96,10 +93,10 @@ public class Game implements Runnable{
             g.setColor(Color.white);
             g.drawString("Score: " + score + " Lives: " + playerLives, getWidth()-150, getHeight()-15);
             
-            for(int i = 0; i < bullets.size(); i++){
-               bullets.get(i).render(g);
-            }
+            renderBullets();
+            renderAliens();
             player.render(g);
+            
             bs.show();
             g.dispose();
         }
@@ -134,10 +131,84 @@ public class Game implements Runnable{
         return keyManager;
     }
 
+    // *********************
+    // *** OTHER METHODS *** 
+    // *********************
     
-    
+    /**
+     * Method to add a bullet to its linked list
+     */
     public void addBullet(){
         bullets.add(new Bullet(player.getX()+38, player.getY(), 5, 10, 5, this));
+    }
+    
+    /**
+     * Method to create aliens given a number
+     * @param numAliens 
+     */
+    public void createAliens(int numAliens){
+        aliens = new LinkedList<>();
+        int random = (int)(Math.random() * 150);
+        for(int i = 0; i < numAliens; i++){
+            aliens.add(new Alien(i*60+random, 0, 36, 36, 2, 5, this));
+        }
+    }
+    
+    
+    
+    // *************************
+    // *** LIST TICK METHODS *** 
+    // *************************
+    
+    /**
+     * Method to tick each bullet on the linked list of bullets
+     */
+    public void bulletsTick(){
+        for(int i = 0; i < bullets.size(); i++){
+            bullets.get(i).tick();
+            //  En caso de salir de la pantalla se elimina del linked list
+            if(bullets.get(i).getY() < 0){
+                bullets.remove(i);
+            }
+            for(int j = 0; j < aliens.size(); j++){
+                if(bullets.get(i).intersecta(aliens.get(j))){
+                    bullets.remove(i);
+                    aliens.remove(j);
+                    score += 50;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Method to tick each alien on the linked list of bullets
+     */
+    public void alienTick(){
+        for(int i = 0; i < aliens.size(); i++){
+            aliens.get(i).tick();
+        }
+    }
+    
+    // ***************************
+    // *** LIST RENDER METHODS *** 
+    // ***************************
+    
+    /**
+     * Method to render each bullet on the linked list of bullets
+     */
+    public void renderBullets(){
+        for(int i = 0; i < bullets.size(); i++){
+               bullets.get(i).render(g);
+        }
+    }
+    
+    /**
+     * Method to render each alien on the linked list of aliens
+     */
+    public void renderAliens(){
+        for(int i = 0; i < aliens.size(); i++){
+               aliens.get(i).render(g);
+        }
     }
     
     // ***********************

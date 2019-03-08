@@ -11,6 +11,7 @@ public class Assets {
     public static BufferedImage bullet;
     public static BufferedImage playerSprites;
     public static BufferedImage playerAnimation[];
+    public static BufferedImage alien1;
     //  SOUNDS
 
     /**
@@ -21,6 +22,7 @@ public class Assets {
         background = ImageLoader.loadImage("/images/background_nightsky.jpg");
         playerSprites = ImageLoader.loadImage("/images/SpaceCraft.png");
         bullet = ImageLoader.loadImage("/images/bullet.png");
+        alien1 = ImageLoader.loadImage("/images/alien1.png");
         //  SOUNDS
         
         //  SPRITESHEET

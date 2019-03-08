@@ -3,6 +3,7 @@
  */
 package spaceinvaders;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public abstract class Item {
     protected int x;
@@ -57,6 +58,14 @@ public abstract class Item {
      */
     public int getHeight(){
         return height;
+    }
+    
+    /**
+     * Creates a Rectangle object the size of the ball
+     * @return rectangle
+     */
+    public Rectangle getPerimetro(){
+        return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
     
     // *******************

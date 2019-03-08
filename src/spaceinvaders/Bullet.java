@@ -27,10 +27,14 @@ public class Bullet extends Item{
     public void tick() {
         setY(getY()-speed);
     }
-
+    
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.bullet, getX(), getY(), getWidth(), getHeight(), null);
+    }
+    
+    public boolean intersecta(Object obj){
+        return obj instanceof Alien && getPerimetro().intersects(((Alien)obj).getPerimetro());
     }
     
 }
