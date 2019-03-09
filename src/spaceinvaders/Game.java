@@ -102,35 +102,6 @@ public class Game implements Runnable{
         }
     }
     
-    
-    // *******************
-    // *** GET METHODS *** 
-    // *******************
-
-    /**
-     * Return game width
-     * @return width
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Return game height
-     * @return height
-     */
-    public int getHeight() {
-        return height;
-    }
-    
-    /**
-     * Returns object for key listeners
-     * @return keyManager
-     */
-    public KeyManager getKeyManager() {
-        return keyManager;
-    }
-
     // *********************
     // *** OTHER METHODS *** 
     // *********************
@@ -141,6 +112,7 @@ public class Game implements Runnable{
     public void addBullet(){
         bullets.add(new Bullet(player.getX()+71, player.getY(), 5, 10, 5, this));
         bullets.add(new Bullet(player.getX()+5, player.getY(), 5, 10, 5, this));
+        Assets.shooting.play();
     }
     
     /**
@@ -201,6 +173,34 @@ public class Game implements Runnable{
         for(int i = 0; i < aliens.size(); i++){
                aliens.get(i).render(g);
         }
+    }
+    
+    // *******************
+    // *** GET METHODS *** 
+    // *******************
+
+    /**
+     * Return game width
+     * @return width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Return game height
+     * @return height
+     */
+    public int getHeight() {
+        return height;
+    }
+    
+    /**
+     * Returns object for key listeners
+     * @return keyManager
+     */
+    public KeyManager getKeyManager() {
+        return keyManager;
     }
     
     // ***********************

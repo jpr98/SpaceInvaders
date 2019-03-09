@@ -12,9 +12,20 @@ import java.awt.Rectangle;
  * @author francogarza
  */
 public class Bullet extends Item{
+    // REGARDING BULLET
     private int speed;
+    // OTHERS
     private Game game;
 
+    /**
+     * Constructor for Bullet
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param speed
+     * @param game 
+     */
     public Bullet(int x, int y, int width, int height, int speed, Game game) {
         super(x, y);
         this.game = game;
@@ -23,18 +34,21 @@ public class Bullet extends Item{
         this.speed = speed;
     }
     
+    /**
+     * Method that checks Bullet every frame
+     */
     @Override
     public void tick() {
         setY(getY()-speed);
     }
     
+    /**
+     * Render method for bullet
+     * @param g 
+     */
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.bullet, getX(), getY(), getWidth(), getHeight(), null);
-    }
-    
-    public boolean intersecta(Object obj){
-        return obj instanceof Alien && getPerimetro().intersects(((Alien)obj).getPerimetro());
     }
     
 }
