@@ -87,6 +87,13 @@ public class Game implements Runnable{
      */
     private void tick() {
         keyManager.tick();
+        // Save and load listeners
+        if (keyManager.g) {
+            //saveGame();
+        }
+        if (keyManager.c) {
+            //loadGame();
+        }
         // Pause and restart listeners
         if (keyManager.p) {
             paused = true;
@@ -111,11 +118,9 @@ public class Game implements Runnable{
      */
     private void render() {
         bs = display.getCanvas().getBufferStrategy();
-        if (bs == null) 
-        {
+        if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
-        } else 
-        {
+        } else {
             g = bs.getDrawGraphics();
             g.clearRect(0,0, width, height);
             g.drawImage(Assets.background, 0, 0, width, height, null);
@@ -125,6 +130,12 @@ public class Game implements Runnable{
             g.setColor(Color.white);
             g.drawString("Score: " + score + " Health: " + health, getWidth()-200, getHeight()-15);
             
+            // SHOWING PAUSED MESSAGE IF NEEDED 
+            if (paused) {
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+                g.setColor(Color.white);
+                g.drawString("Game Paused", getWidth()/2-140, getHeight()/2);
+            }
             renderBullets();
             renderAliens();
             player.render(g);
