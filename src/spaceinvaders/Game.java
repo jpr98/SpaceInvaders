@@ -139,7 +139,8 @@ public class Game implements Runnable{
      * Method to add a bullet to its linked list
      */
     public void addBullet(){
-        bullets.add(new Bullet(player.getX()+38, player.getY(), 5, 10, 5, this));
+        bullets.add(new Bullet(player.getX()+71, player.getY(), 5, 10, 5, this));
+        bullets.add(new Bullet(player.getX()+5, player.getY(), 5, 10, 5, this));
     }
     
     /**
