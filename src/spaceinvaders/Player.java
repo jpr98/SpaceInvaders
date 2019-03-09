@@ -13,23 +13,25 @@ import java.awt.Rectangle;
  * @author francogarza
  */
 public class Player extends Item{
-    private final int lives;
+    private final int health;
     private final Game game;
     private int frames;
     private final Animation playerMoving;
 
-    public Player(int x, int y, int width, int height, int lives, Game game) {
+    public Player(int x, int y, int width, int height, int health, Game game) {
         super(x, y);
         this.width = width;
         this.height = height;
-        this.lives = lives;
+        this.health = health;
         this.game = game;
         this.playerMoving = new Animation(Assets.playerAnimation, 100);
     }
     
     @Override
     public void tick() {
+        //  Determines de bullet rate
         frames ++;
+        
         //  Tick for the animation
         this.playerMoving.tick();
         
@@ -48,7 +50,7 @@ public class Player extends Item{
         }
         
         //  Player shooting
-        if (game.getKeyManager().up && frames > 20){
+        if (game.getKeyManager().up && frames > 15){
             frames = 0;
             game.addBullet();
         }
@@ -64,11 +66,11 @@ public class Player extends Item{
     // *******************
     
     /**
-     * Return game lives
-     * @return lives
+     * Return game health
+     * @return health
      */
-    public int getLives() {
-        return lives;
+    public int getHealth() {
+        return health;
     }
     
     // *******************

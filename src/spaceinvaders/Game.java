@@ -30,7 +30,7 @@ public class Game implements Runnable{
     String title;
     // VARIABLES FOR PLAYER
     private Player player;
-    private int playerLives;
+    private int health;
     private int score;
     // VARIABLES PARA BULLETS
     private LinkedList<Bullet> bullets;
@@ -55,12 +55,12 @@ public class Game implements Runnable{
      * Initializer, create game figures and display
      */
     public void init(){
-        playerLives = (int)(Math.random() * 3 + 3);
+        health = 100;
         display = new Display(title, width, height);
         Assets.init();
         bullets = new LinkedList<>();
         createAliens(5);
-        player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, playerLives, this);
+        player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, health, this);
         display.getJframe().addKeyListener(keyManager);
     }
     
@@ -91,7 +91,7 @@ public class Game implements Runnable{
             //  DRAWING LIVES AND SCORE
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
             g.setColor(Color.white);
-            g.drawString("Score: " + score + " Lives: " + playerLives, getWidth()-150, getHeight()-15);
+            g.drawString("Score: " + score + " Health: " + health, getWidth()-200, getHeight()-15);
             
             renderBullets();
             renderAliens();
@@ -154,8 +154,6 @@ public class Game implements Runnable{
         }
     }
     
-    
-    
     // *************************
     // *** LIST TICK METHODS *** 
     // *************************
@@ -169,13 +167,6 @@ public class Game implements Runnable{
             //  En caso de salir de la pantalla se elimina del linked list
             if(bullets.get(i).getY() < 0){
                 bullets.remove(i);
-            }
-            for(int j = 0; j < aliens.size(); j++){
-                if(bullets.get(i).intersecta(aliens.get(j))){
-                    bullets.remove(i);
-                    aliens.remove(j);
-                    score += 50;
-                }
             }
         }
     }
