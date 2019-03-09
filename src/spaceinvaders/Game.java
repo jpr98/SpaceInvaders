@@ -62,6 +62,7 @@ public class Game implements Runnable{
         createAliens(5);
         player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, health, this);
         display.getJframe().addKeyListener(keyManager);
+        // Background music is set to looping true and its played
         Assets.backgroundMusic.setLooping(true);
         Assets.backgroundMusic.play();
     }
@@ -112,8 +113,8 @@ public class Game implements Runnable{
      * Method to add a bullet to its linked list
      */
     public void addBullet(){
-        bullets.add(new Bullet(player.getX()+71, player.getY(), 5, 10, 5, this));
-        bullets.add(new Bullet(player.getX()+5, player.getY(), 5, 10, 5, this));
+        bullets.add(new Bullet(player.getX()+63, player.getY(), 5, 10, 5, this));
+        bullets.add(new Bullet(player.getX()+3, player.getY(), 5, 10, 5, this));
         Assets.shooting.play();
     }
     
