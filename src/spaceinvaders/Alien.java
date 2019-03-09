@@ -82,6 +82,14 @@ public class Alien extends Item{
     public int getLives() {
         return lives;
     }
+
+    /**
+     * Return Alien speed
+     * @return speed
+     */
+    public int getSpeed() {
+        return speed;
+    }
     
     // *******************
     // *** SET METHODS *** 
@@ -93,5 +101,12 @@ public class Alien extends Item{
      */
     public void setLives(int lives){
         this.lives = lives;
+    }
+
+    /**
+     * Set Alien speed
+     */
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

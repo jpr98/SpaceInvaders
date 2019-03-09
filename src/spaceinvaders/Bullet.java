@@ -51,4 +51,18 @@ public class Bullet extends Item{
         g.drawImage(Assets.bullet, getX(), getY(), getWidth(), getHeight(), null);
     }
     
+    /**
+     * Return Bullet speed
+     * @return speed
+     */
+    public int getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Set Bullet speed
+     */
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }

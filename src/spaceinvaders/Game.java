@@ -81,6 +81,72 @@ public class Game implements Runnable{
         createAliens(5);
         player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, health, this);
     }
+
+    /**
+     * Saves game progress to save.txt
+     */
+    private void saveGame() {
+        try {
+            FileWriter file = new FileWriter("save.txt");
+
+            // saving player's info
+            file.write(String.valueOf(player.getX() + "\n"));
+            file.write(String.valueOf(player.getY() + "\n"));
+            file.write(String.valueOf(health + "\n"));
+            file.write(String.valueOf(score + "\n"));
+
+            // saving enemies' info
+            for (Alien alien : aliens) {
+                file.write(String.valueOf(alien.getX() + "\n"));
+                file.write(String.valueOf(alien.getY() + "\n"));
+                file.write(String.valueOf(alien.getSpeed() + "\n"));
+            }
+
+            // saving bullets' info
+            for (Bullet bullet : bullets) {
+                file.write(String.valueOf(bullet.getX() + "\n"));
+                file.write(String.valueOf(bullet.getY() + "\n"));
+                file.write(String.valueOf(bullet.getSpeed() + "\n"));
+            }
+
+            file.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads game data saved in save.txt
+     */
+    private void loadGame() {
+        try {
+            BufferedReader file = new BufferedReader(new FileReader("save.txt"));
+
+            // Loading player data
+            player.setX(Integer.parseInt(file.readLine()));
+            player.setY(Integer.parseInt(file.readLine()));
+            health = Integer.parseInt(file.readLine());
+            score = Integer.parseInt(file.readLine());
+            
+            // loading enemies data
+            for (Alien alien : aliens) {
+                alien.setX(Integer.parseInt(file.readLine()));
+                alien.setY(Integer.parseInt(file.readLine()));
+                alien.setSpeed(Integer.parseInt(file.readLine()));
+            }
+
+            // loading bullets data
+            for (Bullet bullet : bullets) {
+                bullet.setX(Integer.parseInt(file.readLine()));
+                bullet.setY(Integer.parseInt(file.readLine()));
+                bullet.setSpeed(Integer.parseInt(file.readLine()));
+            }
+
+            file.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
     
     /**
      * Makes changes to objects each frame
@@ -89,10 +155,10 @@ public class Game implements Runnable{
         keyManager.tick();
         // Save and load listeners
         if (keyManager.g) {
-            //saveGame();
+            saveGame();
         }
         if (keyManager.c) {
-            //loadGame();
+            loadGame();
         }
         // Pause and restart listeners
         if (keyManager.p) {
