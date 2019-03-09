@@ -28,6 +28,7 @@ public class Game implements Runnable{
     private final int width;
     private Display display;
     String title;
+    private boolean paused;
     // VARIABLES FOR PLAYER
     private Player player;
     private int health;
@@ -54,27 +55,55 @@ public class Game implements Runnable{
     /**
      * Initializer, create game figures and display
      */
-    public void init(){
-        health = 100;
-        display = new Display(title, width, height);
+    public void init() {
         Assets.init();
+        display = new Display(title, width, height);
+        health = 100;
+        paused = false;
         bullets = new LinkedList<>();
         createAliens(5);
         player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, health, this);
         display.getJframe().addKeyListener(keyManager);
+
         // Background music is set to looping true and its played
         Assets.backgroundMusic.setLooping(true);
         Assets.backgroundMusic.play();
+    }
+
+    /**
+     * Restarts the game and sets the variables to initial values
+     */
+    private void restart() {
+        Assets.init();
+        health = 100;
+        paused = false;
+        bullets = new LinkedList<>();
+        createAliens(5);
+        player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, health, this);
     }
     
     /**
      * Makes changes to objects each frame
      */
     private void tick() {
-        player.tick();
         keyManager.tick();
-        bulletsTick();
-        alienTick();
+        // Pause and restart listeners
+        if (keyManager.p) {
+            paused = true;
+            Assets.backgroundMusic.play();
+        } else {
+            paused = false;
+            Assets.backgroundMusic.stop();
+        }
+        if (keyManager.r) {
+            restart();
+        }
+        if (!paused) {
+            player.tick();
+            bulletsTick();
+            alienTick();
+        }
+        
     }
     
     /**
