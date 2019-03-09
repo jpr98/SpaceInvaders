@@ -62,6 +62,8 @@ public class Game implements Runnable{
         createAliens(5);
         player = new Player((getWidth()/2)-38, getHeight() - 147, 76, 112, health, this);
         display.getJframe().addKeyListener(keyManager);
+        Assets.backgroundMusic.setLooping(true);
+        Assets.backgroundMusic.play();
     }
     
     /**
@@ -137,7 +139,7 @@ public class Game implements Runnable{
     public void bulletsTick(){
         for(int i = 0; i < bullets.size(); i++){
             bullets.get(i).tick();
-            //  En caso de salir de la pantalla se elimina del linked list
+            //  Gets removes if the bullet leaves the screen
             if(bullets.get(i).getY() < 0){
                 bullets.remove(i);
             }
@@ -149,8 +151,19 @@ public class Game implements Runnable{
      */
     public void alienTick(){
         for(int i = 0; i < aliens.size(); i++){
+            // Each alien gets ticked
             aliens.get(i).tick();
+            // Check is the alien has left de screen
+            if(aliens.get(i).getY() > getHeight()){
+                aliens.remove();
+                health -= 10;
+            }
         }
+        
+        //  When all aliens are distroyed new ones appear
+        if(aliens.isEmpty() )
+            createAliens(5);
+        
     }
     
     // ***************************

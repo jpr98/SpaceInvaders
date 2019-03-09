@@ -14,6 +14,7 @@ public class Assets {
     public static BufferedImage alien1;
     //  SOUNDS
     public static SoundClip shooting;
+    public static SoundClip backgroundMusic;
     /**
      * Assets initializer, to be called in Game
      */
@@ -26,6 +27,7 @@ public class Assets {
         
         //  SOUNDS
         shooting = new SoundClip("/sounds/ShootingSound.wav");
+        backgroundMusic = new SoundClip("/sounds/backgroundMusic.wav");
         
         //  SPRITESHEETS
         SpriteSheet spritesheet = new SpriteSheet(playerSprites);
