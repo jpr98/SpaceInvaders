@@ -16,6 +16,7 @@ public class Bullet extends Item{
     private int speed;
     // OTHERS
     private Game game;
+    private boolean destroyed;
 
     /**
      * Constructor for Bullet
@@ -66,10 +67,18 @@ public class Bullet extends Item{
         return speed;
     }
 
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
     /**
      * Set Bullet speed
      */
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
     }
 }

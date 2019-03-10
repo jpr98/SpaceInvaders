@@ -12,6 +12,7 @@ public class Assets {
     public static BufferedImage playerSprites;
     public static BufferedImage playerAnimation[];
     public static BufferedImage alien1;
+    public static BufferedImage gameover;
     //  SOUNDS
     public static SoundClip shooting;
     public static SoundClip backgroundMusic;
@@ -24,6 +25,7 @@ public class Assets {
         playerSprites = ImageLoader.loadImage("/images/SpaceCraft.png");
         bullet = ImageLoader.loadImage("/images/bullet.png");
         alien1 = ImageLoader.loadImage("/images/alien1.png");
+        gameover = ImageLoader.loadImage("/images/GameOver.jpg");
         
         //  SOUNDS
         shooting = new SoundClip("/sounds/ShootingSound.wav");

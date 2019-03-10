@@ -37,6 +37,7 @@ public class Game implements Runnable{
     private LinkedList<Bullet> bullets;
     // VARIABLES PARA ALIENS
     private LinkedList<Alien> aliens;
+    private int countAliens;
     
     /**
      * Constructor for the game
@@ -163,10 +164,10 @@ public class Game implements Runnable{
         // Pause and restart listeners
         if (keyManager.p) {
             paused = true;
-            Assets.backgroundMusic.play();
+            Assets.backgroundMusic.stop();
         } else {
             paused = false;
-            Assets.backgroundMusic.stop();
+            //Assets.backgroundMusic.play();
         }
         if (keyManager.r) {
             restart();
@@ -189,25 +190,35 @@ public class Game implements Runnable{
         } else {
             g = bs.getDrawGraphics();
             g.clearRect(0,0, width, height);
-            g.drawImage(Assets.background, 0, 0, width, height, null);
-            
-            //  DRAWING LIVES AND SCORE
-            g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            g.setColor(Color.white);
-            g.drawString("Score: " + score + " Health: " + health, getWidth()-200, getHeight()-15);
-            
-            // SHOWING PAUSED MESSAGE IF NEEDED 
-            if (paused) {
-                g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+            if (health <= 0) {
+                g.drawImage(Assets.gameover, 0, 0, width, height, null);
+                Assets.backgroundMusic.stop();
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
                 g.setColor(Color.white);
-                g.drawString("Game Paused", getWidth()/2-140, getHeight()/2);
-            }
-            renderBullets();
-            renderAliens();
-            player.render(g);
+                g.drawString("Score: " + score, getWidth()/2-80, getHeight()/2);
+                bs.show();
+                g.dispose();
+            } else {
+                g.drawImage(Assets.background, 0, 0, width, height, null);
             
-            bs.show();
-            g.dispose();
+                //  DRAWING LIVES AND SCORE
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+                g.setColor(Color.white);
+                g.drawString("Score: " + score + " Health: " + health, getWidth()-200, getHeight()-15);
+                
+                // SHOWING PAUSED MESSAGE IF NEEDED 
+                if (paused) {
+                    g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+                    g.setColor(Color.white);
+                    g.drawString("Game Paused", getWidth()/2-140, getHeight()/2);
+                }
+                renderBullets();
+                renderAliens();
+                player.render(g);
+                bs.show();
+                g.dispose();
+            }
+            
         }
     }
     
@@ -229,6 +240,7 @@ public class Game implements Runnable{
      * @param numAliens 
      */
     public void createAliens(int numAliens){
+        countAliens = numAliens;
         aliens = new LinkedList<>();
         for(int i = 0; i < numAliens; i++){
             int xrandom = (int)(Math.random() * 450);
@@ -246,19 +258,25 @@ public class Game implements Runnable{
      * Method to tick each bullet on the linked list of bullets
      */
     public void bulletsTick(){
-        for(Bullet bullet : bullets){
-            bullet.tick();
+        for(int i = 0; i<bullets.size(); i++){
             //  Gets removes if the bullet leaves the screen
-            if(bullet.getY() < 0){
-                bullets.remove(bullet);
+            if(bullets.get(i).getY() < 0){
+                bullets.get(i).setDestroyed(true);
             }
             // Check if bullet intersects any alien
-            for (Alien alien : aliens) {
-                if (bullet.intersecta(alien)) {
-                    //bullets.remove(bullet);
-                    aliens.remove(alien);
+            for (int j = 0; j<aliens.size(); j++) {
+                if (bullets.get(i).intersecta(aliens.get(j)) && !bullets.get(i).isDestroyed()) {
                     score += 10;
+                    aliens.get(j).setDestroyed(true);
+                    aliens.remove(j);
+                    bullets.get(i).setDestroyed(true);
+                    countAliens--;
+                    System.out.println(countAliens);
                 }
+            }
+            bullets.get(i).tick();
+            if (bullets.get(i).isDestroyed()) {
+                bullets.remove(i);
             }
         }
     }
@@ -267,18 +285,20 @@ public class Game implements Runnable{
      * Method to tick each alien on the linked list of aliens
      */
     public void alienTick(){
-        for(Alien alien : aliens){
-            // Each alien gets ticked
-            alien.tick();
+        for(int i = 0; i<aliens.size(); i++){
             // Check is the alien has left de screen
-            if (alien.getY() > getHeight()){
-                aliens.remove(alien);
+            if (aliens.get(i).getY() > getHeight()){
+                aliens.remove(i);
                 health -= 10;
             }
+            
+            // Each alien gets ticked
+            aliens.get(i).tick();
         }
         
         //  When all aliens are distroyed new ones appear
-        if (aliens.isEmpty()) {
+        if (countAliens <= 0) {
+           //aliens.remove();
             int random = (int)(Math.random() * 6) + 1;
             createAliens(random);
         }

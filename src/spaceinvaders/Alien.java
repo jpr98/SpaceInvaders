@@ -18,6 +18,7 @@ public class Alien extends Item{
     // OTHER
     private int frames;
     private Game game;
+    private boolean destroyed;
 
     /**
      * Constructor for Alien
@@ -36,6 +37,7 @@ public class Alien extends Item{
         this.lives = lives;
         this.speed = speed;
         this.game = game;
+        this.destroyed = false;
     }
     
     /**
@@ -68,7 +70,9 @@ public class Alien extends Item{
      */
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.alien1, getX(), getY(), getWidth(), getHeight(), null);
+        if (!isDestroyed()) {
+            g.drawImage(Assets.alien1, getX(), getY(), getWidth(), getHeight(), null);
+        }
     }
     
     // *******************
@@ -90,6 +94,10 @@ public class Alien extends Item{
     public int getSpeed() {
         return speed;
     }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
     
     // *******************
     // *** SET METHODS *** 
@@ -108,5 +116,9 @@ public class Alien extends Item{
      */
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
     }
 }
