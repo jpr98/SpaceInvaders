@@ -52,6 +52,13 @@ public class Bullet extends Item{
     }
     
     /**
+     * Checks if bullet intersected with an Alien object
+     */
+    public boolean intersecta(Object obj){
+        return obj instanceof Alien && getPerimetro().intersects(((Alien)obj).getPerimetro());
+    }
+
+    /**
      * Return Bullet speed
      * @return speed
      */

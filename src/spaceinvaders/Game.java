@@ -230,9 +230,11 @@ public class Game implements Runnable{
      */
     public void createAliens(int numAliens){
         aliens = new LinkedList<>();
-        int random = (int)(Math.random() * 150);
         for(int i = 0; i < numAliens; i++){
-            aliens.add(new Alien(i*60+random, 0, 36, 36, 2, 5, this));
+            int xrandom = (int)(Math.random() * 450);
+            int yrandom = (int)(Math.random() * -600);
+            int srandom = (int)(Math.random() * 2) + 1;
+            aliens.add(new Alien(xrandom, yrandom, 36, 36, srandom, 5, this));
         }
     }
     
@@ -244,33 +246,42 @@ public class Game implements Runnable{
      * Method to tick each bullet on the linked list of bullets
      */
     public void bulletsTick(){
-        for(int i = 0; i < bullets.size(); i++){
-            bullets.get(i).tick();
+        for(Bullet bullet : bullets){
+            bullet.tick();
             //  Gets removes if the bullet leaves the screen
-            if(bullets.get(i).getY() < 0){
-                bullets.remove(i);
+            if(bullet.getY() < 0){
+                bullets.remove(bullet);
+            }
+            // Check if bullet intersects any alien
+            for (Alien alien : aliens) {
+                if (bullet.intersecta(alien)) {
+                    //bullets.remove(bullet);
+                    aliens.remove(alien);
+                    score += 10;
+                }
             }
         }
     }
     
     /**
-     * Method to tick each alien on the linked list of bullets
+     * Method to tick each alien on the linked list of aliens
      */
     public void alienTick(){
-        for(int i = 0; i < aliens.size(); i++){
+        for(Alien alien : aliens){
             // Each alien gets ticked
-            aliens.get(i).tick();
+            alien.tick();
             // Check is the alien has left de screen
-            if(aliens.get(i).getY() > getHeight()){
-                aliens.remove();
+            if (alien.getY() > getHeight()){
+                aliens.remove(alien);
                 health -= 10;
             }
         }
         
         //  When all aliens are distroyed new ones appear
-        if(aliens.isEmpty() )
-            createAliens(5);
-        
+        if (aliens.isEmpty()) {
+            int random = (int)(Math.random() * 6) + 1;
+            createAliens(random);
+        }
     }
     
     // ***************************
@@ -281,8 +292,8 @@ public class Game implements Runnable{
      * Method to render each bullet on the linked list of bullets
      */
     public void renderBullets(){
-        for(int i = 0; i < bullets.size(); i++){
-               bullets.get(i).render(g);
+        for(Bullet bullet : bullets){
+               bullet.render(g);
         }
     }
     
@@ -290,8 +301,8 @@ public class Game implements Runnable{
      * Method to render each alien on the linked list of aliens
      */
     public void renderAliens(){
-        for(int i = 0; i < aliens.size(); i++){
-               aliens.get(i).render(g);
+        for(Alien alien : aliens){
+               alien.render(g);
         }
     }
     
