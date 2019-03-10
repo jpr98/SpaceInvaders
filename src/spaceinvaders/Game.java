@@ -244,7 +244,7 @@ public class Game implements Runnable{
         aliens = new LinkedList<>();
         for(int i = 0; i < numAliens; i++){
             int xrandom = (int)(Math.random() * 450);
-            int yrandom = (int)(Math.random() * -600);
+            int yrandom = (int)(Math.random() * -500);
             int srandom = (int)(Math.random() * 2) + 1;
             aliens.add(new Alien(xrandom, yrandom, 36, 36, srandom, 5, this));
         }
@@ -286,14 +286,15 @@ public class Game implements Runnable{
      */
     public void alienTick(){
         for(int i = 0; i<aliens.size(); i++){
+            // Each alien gets ticked
+            aliens.get(i).tick();
+            
             // Check is the alien has left de screen
             if (aliens.get(i).getY() > getHeight()){
                 aliens.remove(i);
+                countAliens--;
                 health -= 10;
             }
-            
-            // Each alien gets ticked
-            aliens.get(i).tick();
         }
         
         //  When all aliens are distroyed new ones appear
